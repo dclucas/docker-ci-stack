@@ -1,0 +1,24 @@
+version: '2'
+services:
+  jenkins:
+    build: .
+    ports:
+     - "8080:8080"
+     - "50000:50000"
+    volumes:
+     - ./jenkins_home:/var/jenkins_home
+     - /var/run/docker.sock:/var/run/docker.sock
+     - ./.npm:/root/.npm
+    #environment:
+    #  - NPM_CONFIG_REGISTRY
+  sonarqube:
+    image: sonarqube:5.6
+    ports:
+      - "9000:9000" 
+      - "9092:9092"
+  nexus:
+    image: sonatype/nexus3:3.0.0
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./nexus-data:/nexus-data
