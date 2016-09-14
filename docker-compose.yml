@@ -8,9 +8,8 @@ services:
     volumes:
      - ./jenkins_home:/var/jenkins_home
      - /var/run/docker.sock:/var/run/docker.sock
-     - ./.npm:/root/.npm
-    #environment:
-    #  - NPM_CONFIG_REGISTRY
+    environment:
+      - NPM_CONFIG_REGISTRY
   sonarqube:
     image: sonarqube:5.6
     ports:
