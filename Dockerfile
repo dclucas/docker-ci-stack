@@ -1,11 +1,15 @@
-FROM jenkins:2.7.4
+FROM jenkins:2.7.4-alpine
+
+MAINTAINER Diogo Lucas <https://github.com/dclucas>
 
 USER root
 
-RUN apt-get update && apt-get install -y docker.io curl
+ENV DOCKER_COMPOSE_VERSION 1.8.0
 
-RUN curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-
-RUN chmod +x /usr/local/bin/docker-compose
+RUN apk --update add py-pip py-yaml &&\
+    pip install -U docker-compose==${DOCKER_COMPOSE_VERSION} &&\
+    rm -rf `find / -regex '.*\.py[co]' -or -name apk`
+ENTRYPOINT ["docker-compose"]
+CMD ["--version"]
 
 USER jenkins
